@@ -541,89 +541,145 @@ const persons = [
 
 const tablero$$ = document.body.querySelector("[data-function='boardGame']");
 const questions$$ = document.body.querySelector("[data-function='questions']");
+const clues$$ = document.body.querySelector("[data-function='clueCount']");
+let takeClue = false;
+let clues = 0;
 const randomNum = parseInt(Math.random() * (45 - 1) + 1);
 
 for (let i = 0; i < persons.length; i++) {
     const person = persons[i];
     Object.defineProperty(person, "id", { value: `p${i + 1}` });
     const div$$ = document.createElement("div");
-
     div$$.innerHTML = `<img id="p${i + 1}" src="${person.img}"></img>`;
     tablero$$.appendChild(div$$);
 }
 
-const persChosen$$ = document.body.querySelector("#p" + randomNum);
+const persChosen$$ = persons[randomNum - 1]; //document.body.querySelector("#p" + randomNum);
 console.log("Esta es la persona seleccionada: " + persChosen$$.id);
-let personsToRemove = [];
+let personsToDisable = [];
 
-const removePersons = () => {
-    for (person of personsToRemove) {
-        const divToRemove = document.body.querySelector(`#${person.id}`);
-        console.log(divToRemove);
-        divToRemove.remove();
+const disablePersons = () => {
+    for (const person of personsToDisable) {
+        const divToDisable = document.body.querySelector(`#${person.id}`);
+        divToDisable.setAttribute("class", "b-disabled");
     }
+    event.target.setAttribute("class", "b-disabled");
+    personsToDisable = [];
+};
 
-    personsToRemove = [];
+const updateClues = () => {
+    clues++;
+    clues$$.textContent = clues;
+    takeClue = false;
 };
 
 const checkQuestion = (event) => {
     const questionKey = event.target.parentElement.getAttribute("data-function__key");
     const questionValue = event.target.textContent;
-    for (person of persons) {
+    for (const person of persons) {
         switch (questionKey) {
             case "gender":
-                if (person.gender === questionValue) {
-                    if (persChosen$$.gender !== questionValue) personsToRemove.push(person);
+                if (persChosen$$.gender === questionValue) {
+                    for (const person of persons) {
+                        if (person.gender !== persChosen$$.gender) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             case "hairColor":
-                if (person.hairColor == questionValue) {
-                    console.log(questionValue);
+                if (persChosen$$.hairColor === questionValue) {
+                    for (const person of persons) {
+                        if (person.hairColor !== persChosen$$.hairColor) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             case "moustache":
-                if (person.moustache === questionValue) {
-                    console.log(questionValue);
+                if (persChosen$$.moustache === questionValue) {
+                    for (const person of persons) {
+                        if (person.moustache !== persChosen$$.moustache) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             case "glasses":
-                if (person.glasses === questionValue) {
-                    console.log(questionValue);
+                if (persChosen$$.glasses === questionValue) {
+                    for (const person of persons) {
+                        if (person.glasses !== persChosen$$.glasses) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             case "hatOrCap":
-                if (person.hatOrCap === questionValue) {
-                    console.log(questionValue);
+                if (persChosen$$.hatOrCap === questionValue) {
+                    for (const person of persons) {
+                        if (person.hatOrCap !== persChosen$$.hatOrCap) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             case "clothesColor":
-                if (person.clothesColor === questionValue) {
-                    console.log(questionValue);
+                if (persChosen$$.clothesColor === questionValue) {
+                    for (const person of persons) {
+                        if (person.clothesColor !== persChosen$$.clothesColor) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             case "skinColor":
-                if (person.skinColor === questionValue) {
-                    console.log(questionValue);
+                if (persChosen$$.skinColor === questionValue) {
+                    for (const person of persons) {
+                        if (person.skinColor !== persChosen$$.skinColor) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             case "longHair":
-                if (person.longHair === questionValue) {
-                    console.log(questionValue);
+                if (persChosen$$.longHair === questionValue) {
+                    for (const person of persons) {
+                        if (person.longHair !== persChosen$$.longHair) {
+                            personsToDisable.push(person);
+                        }
+                    }
+                } else {
+                    takeClue = true;
                 }
                 break;
             default:
                 break;
         }
     }
-    removePersons();
+    disablePersons();
+    if (takeClue === true) updateClues();
 };
 
-for (questionType of questionsType) {
+for (const questionType of questionsType) {
     const div$$ = document.createElement("div");
     div$$.setAttribute("data-function__key", `${questionType.key}`);
     div$$.innerHTML = `<h2>${questionType.title}</h2>`;
 
-    for (question of questionType.questions) {
+    for (const question of questionType.questions) {
         const button$$ = document.createElement("button");
         button$$.textContent = `${question}`;
         button$$.addEventListener("click", checkQuestion);

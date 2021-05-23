@@ -40,3 +40,8 @@ h2 {
     margin-bottom: 10px;
     cursor: pointer;
 }
+
+.b-disabled {
+    pointer-events: none;
+    opacity: 0.2;
+}
