@@ -545,6 +545,7 @@ const randomNum = parseInt(Math.random() * (45 - 1) + 1);
 
 for (let i = 0; i < persons.length; i++) {
     const person = persons[i];
+    Object.defineProperty(person, "id", { value: `p${i + 1}` });
     const div$$ = document.createElement("div");
 
     div$$.innerHTML = `<img id="p${i + 1}" src="${person.img}"></img>`;
@@ -552,17 +553,69 @@ for (let i = 0; i < persons.length; i++) {
 }
 
 const persChosen$$ = document.body.querySelector("#p" + randomNum);
-console.log(persChosen$$);
+console.log("Esta es la persona seleccionada: " + persChosen$$.id);
+let personsToRemove = [];
+
+const removePersons = () => {
+    for (person of personsToRemove) {
+        const divToRemove = document.body.querySelector(`#${person.id}`);
+        console.log(divToRemove);
+        divToRemove.remove();
+    }
+
+    personsToRemove = [];
+};
 
 const checkQuestion = (event) => {
     const questionKey = event.target.parentElement.getAttribute("data-function__key");
     const questionValue = event.target.textContent;
     for (person of persons) {
-        console.log(person);
-        for (atribute of person) {
-            console.log(atribute);
+        switch (questionKey) {
+            case "gender":
+                if (person.gender === questionValue) {
+                    if (persChosen$$.gender !== questionValue) personsToRemove.push(person);
+                }
+                break;
+            case "hairColor":
+                if (person.hairColor == questionValue) {
+                    console.log(questionValue);
+                }
+                break;
+            case "moustache":
+                if (person.moustache === questionValue) {
+                    console.log(questionValue);
+                }
+                break;
+            case "glasses":
+                if (person.glasses === questionValue) {
+                    console.log(questionValue);
+                }
+                break;
+            case "hatOrCap":
+                if (person.hatOrCap === questionValue) {
+                    console.log(questionValue);
+                }
+                break;
+            case "clothesColor":
+                if (person.clothesColor === questionValue) {
+                    console.log(questionValue);
+                }
+                break;
+            case "skinColor":
+                if (person.skinColor === questionValue) {
+                    console.log(questionValue);
+                }
+                break;
+            case "longHair":
+                if (person.longHair === questionValue) {
+                    console.log(questionValue);
+                }
+                break;
+            default:
+                break;
         }
     }
+    removePersons();
 };
 
 for (questionType of questionsType) {
