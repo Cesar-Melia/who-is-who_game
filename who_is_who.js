@@ -540,9 +540,42 @@ const persons = [
 ];
 
 const tablero$$ = document.body.querySelector("[data-function='boardGame']");
+const questions$$ = document.body.querySelector("[data-function='questions']");
+const randomNum = parseInt(Math.random() * (45 - 1) + 1);
+
 for (let i = 0; i < persons.length; i++) {
     const person = persons[i];
     const div$$ = document.createElement("div");
-    div$$.innerHTML = `<img data-function="p${i}" src="${person.img}"></img>`;
+
+    div$$.innerHTML = `<img id="p${i + 1}" src="${person.img}"></img>`;
     tablero$$.appendChild(div$$);
+}
+
+const persChosen$$ = document.body.querySelector("#p" + randomNum);
+console.log(persChosen$$);
+
+const checkQuestion = (event) => {
+    const questionKey = event.target.parentElement.getAttribute("data-function__key");
+    const questionValue = event.target.textContent;
+    for (person of persons) {
+        console.log(person);
+        for (atribute of person) {
+            console.log(atribute);
+        }
+    }
+};
+
+for (questionType of questionsType) {
+    const div$$ = document.createElement("div");
+    div$$.setAttribute("data-function__key", `${questionType.key}`);
+    div$$.innerHTML = `<h2>${questionType.title}</h2>`;
+
+    for (question of questionType.questions) {
+        const button$$ = document.createElement("button");
+        button$$.textContent = `${question}`;
+        button$$.addEventListener("click", checkQuestion);
+        div$$.appendChild(button$$);
+    }
+
+    questions$$.appendChild(div$$);
 }
