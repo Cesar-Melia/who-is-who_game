@@ -546,7 +546,6 @@ let takeClue = false;
 let clues = 0;
 let randomNum = parseInt(Math.random() * (45 - 1) + 1);
 let persChosen$$ = persons[randomNum - 1];
-console.log(persChosen$$.img);
 let personsToDisable = [];
 
 const userOption = (event) => {
