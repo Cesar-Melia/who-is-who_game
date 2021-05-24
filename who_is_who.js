@@ -546,6 +546,7 @@ let takeClue = false;
 let clues = 0;
 let randomNum = parseInt(Math.random() * (45 - 1) + 1);
 let persChosen$$ = persons[randomNum - 1];
+console.log(persChosen$$.img);
 let personsToDisable = [];
 
 const userOption = (event) => {
@@ -585,142 +586,19 @@ const updateClues = () => {
 const checkQuestion = (event) => {
     const questionKey = event.target.parentElement.getAttribute("data-function__key");
     const questionValue = event.target.textContent;
+    updateClues();
     for (const person of persons) {
-        switch (questionKey) {
-            case "gender":
-                if (persChosen$$.gender === questionValue) {
-                    for (const person of persons) {
-                        if (person.gender !== persChosen$$.gender) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.gender === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            case "hairColor":
-                if (persChosen$$.hairColor === questionValue) {
-                    for (const person of persons) {
-                        if (person.hairColor !== persChosen$$.hairColor) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.hairColor === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            case "moustache":
-                if (persChosen$$.moustache === questionValue) {
-                    for (const person of persons) {
-                        if (person.moustache !== persChosen$$.moustache) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.moustache === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            case "glasses":
-                if (persChosen$$.glasses === questionValue) {
-                    for (const person of persons) {
-                        if (person.glasses !== persChosen$$.glasses) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.glasses === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            case "hatOrCap":
-                if (persChosen$$.hatOrCap === questionValue) {
-                    for (const person of persons) {
-                        if (person.hatOrCap !== persChosen$$.hatOrCap) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.hatOrCap === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            case "clothesColor":
-                if (persChosen$$.clothesColor === questionValue) {
-                    for (const person of persons) {
-                        if (person.clothesColor !== persChosen$$.clothesColor) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.clothesColor === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            case "skinColor":
-                if (persChosen$$.skinColor === questionValue) {
-                    for (const person of persons) {
-                        if (person.skinColor !== persChosen$$.skinColor) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.skinColor === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            case "longHair":
-                if (persChosen$$.longHair === questionValue) {
-                    for (const person of persons) {
-                        if (person.longHair !== persChosen$$.longHair) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                } else {
-                    takeClue = true;
-                    for (const person of persons) {
-                        if (person.longHair === questionValue) {
-                            personsToDisable.push(person);
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
+        if (persChosen$$[questionKey] === questionValue) {
+            if (person[questionKey] !== persChosen$$[questionKey]) {
+                personsToDisable.push(person);
+            }
+        } else {
+            if (person[questionKey] === questionValue) {
+                personsToDisable.push(person);
+            }
         }
     }
     disablePersons();
-    if (takeClue === true) updateClues();
 };
 
 for (const questionType of questionsType) {
