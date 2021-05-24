@@ -542,13 +542,12 @@ const persons = [
 const tablero$$ = document.body.querySelector("[data-function='boardGame']");
 const questions$$ = document.body.querySelector("[data-function='questions']");
 const clues$$ = document.body.querySelector("[data-function='clueCount']");
-let takeClue = false;
 let clues = 0;
 let randomNum = parseInt(Math.random() * (45 - 1) + 1);
 let persChosen$$ = persons[randomNum - 1];
 let personsToDisable = [];
 
-const userOption = (event) => {
+const userOption = () => {
     if (event.target.id === persChosen$$.id) {
         alert(`¡Congratulations, you win!\nYou have used ${clues} clues.`);
         resetBoard();
@@ -579,7 +578,6 @@ const disablePersons = () => {
 const updateClues = () => {
     clues++;
     clues$$.textContent = clues;
-    takeClue = false;
 };
 
 const checkQuestion = (event) => {
@@ -617,8 +615,8 @@ for (const questionType of questionsType) {
 
 const resetBoard = () => {
     const resetClass$$ = document.body.querySelectorAll("[class='b-disabled']");
-    for (person of resetClass$$) {
-        person.removeAttribute("class");
+    for (element of resetClass$$) {
+        element.removeAttribute("class");
     }
     clues = 0;
     clues$$.textContent = clues;
