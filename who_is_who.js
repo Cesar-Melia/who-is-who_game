@@ -411,7 +411,7 @@ const persons = [
         hairColor: "Black",
         moustache: "No",
         glasses: "No",
-        hatOrCap: "No",
+        hatOrCap: "Yes",
         clothesColor: "Pink",
         skinColor: "Dark",
         longHair: "Yes",
@@ -544,19 +544,28 @@ const questions$$ = document.body.querySelector("[data-function='questions']");
 const clues$$ = document.body.querySelector("[data-function='clueCount']");
 let takeClue = false;
 let clues = 0;
-const randomNum = parseInt(Math.random() * (45 - 1) + 1);
+let randomNum = parseInt(Math.random() * (45 - 1) + 1);
+let persChosen$$ = persons[randomNum - 1];
+let personsToDisable = [];
+
+const userOption = (event) => {
+    if (event.target.id === persChosen$$.id) {
+        alert(`¡Congratulations, you win!\nYou have used ${clues} clues.`);
+        resetBoard();
+    } else {
+        alert("You lose :(");
+        resetBoard();
+    }
+};
 
 for (let i = 0; i < persons.length; i++) {
     const person = persons[i];
     Object.defineProperty(person, "id", { value: `p${i + 1}` });
     const div$$ = document.createElement("div");
     div$$.innerHTML = `<img id="p${i + 1}" src="${person.img}"></img>`;
+    div$$.addEventListener("click", userOption);
     tablero$$.appendChild(div$$);
 }
-
-const persChosen$$ = persons[randomNum - 1]; //document.body.querySelector("#p" + randomNum);
-console.log("Esta es la persona seleccionada: " + persChosen$$.id);
-let personsToDisable = [];
 
 const disablePersons = () => {
     for (const person of personsToDisable) {
@@ -587,6 +596,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.gender === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             case "hairColor":
@@ -598,6 +612,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.hairColor === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             case "moustache":
@@ -609,6 +628,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.moustache === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             case "glasses":
@@ -620,6 +644,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.glasses === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             case "hatOrCap":
@@ -631,6 +660,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.hatOrCap === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             case "clothesColor":
@@ -642,6 +676,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.clothesColor === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             case "skinColor":
@@ -653,6 +692,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.skinColor === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             case "longHair":
@@ -664,6 +708,11 @@ const checkQuestion = (event) => {
                     }
                 } else {
                     takeClue = true;
+                    for (const person of persons) {
+                        if (person.longHair === questionValue) {
+                            personsToDisable.push(person);
+                        }
+                    }
                 }
                 break;
             default:
@@ -688,3 +737,14 @@ for (const questionType of questionsType) {
 
     questions$$.appendChild(div$$);
 }
+
+const resetBoard = () => {
+    const resetClass$$ = document.body.querySelectorAll("[class='b-disabled']");
+    for (person of resetClass$$) {
+        person.removeAttribute("class");
+    }
+    clues = 0;
+    clues$$.textContent = clues;
+    randomNum = parseInt(Math.random() * (45 - 1) + 1);
+    persChosen$$ = persons[randomNum - 1];
+};
